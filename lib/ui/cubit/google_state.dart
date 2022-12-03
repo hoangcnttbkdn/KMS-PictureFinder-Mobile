@@ -1,9 +1,9 @@
-part of 'home_cubit.dart';
+part of 'google_cubit.dart';
 
-enum LoadingStatus { initial, loading, error, done }
 
-class HomeState extends Equatable {
-  const HomeState({
+
+class GoogleState extends Equatable {
+  const GoogleState({
     this.loadingStatus = LoadingStatus.initial,
     this.imageResult = const [],
     this.url = '',
@@ -17,14 +17,14 @@ class HomeState extends Equatable {
   final String imagePath;
   final bool isFacebook;
 
-  HomeState copyWith({
+  GoogleState copyWith({
     LoadingStatus? loadingStatus,
     List<ImageResult>? imageResult,
     String? url,
     String? imagePath,
     bool? isFacebook,
   }) {
-    return HomeState(
+    return GoogleState(
       loadingStatus: loadingStatus ?? this.loadingStatus,
       imageResult: imageResult ?? this.imageResult,
       url: url ?? this.url,

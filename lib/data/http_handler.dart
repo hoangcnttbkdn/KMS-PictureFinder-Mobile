@@ -10,16 +10,24 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:pictures_finder/data/http_exception.dart';
 import 'package:pictures_finder/main.dart';
 =======
+=======
+import 'dart:typed_data';
+>>>>>>> afb0855 (feat: facebook and google fix)
 
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:pictures_finder/data/http_exception.dart';
+<<<<<<< HEAD
 >>>>>>> a37b117 (feat: add image google)
+=======
+import 'package:pictures_finder/main.dart';
+>>>>>>> afb0855 (feat: facebook and google fix)
 
 /// {@template httpdio_handler}
 /// A http client handler for base api client
@@ -27,6 +35,7 @@ import 'package:pictures_finder/data/http_exception.dart';
 class HttpClientHandler {
   /// {@macro httpdio_handler}
   HttpClientHandler({
+<<<<<<< HEAD
 <<<<<<< HEAD
     http.Client? httpClient,
   }) : _httpClient = httpClient ?? http.Client();
@@ -37,15 +46,26 @@ class HttpClientHandler {
 =======
     Dio? dio,
   }) : dio = dio ?? Dio();
+=======
+    http.Client? httpClient,
+  }) : _httpClient = httpClient ?? http.Client();
+>>>>>>> afb0855 (feat: facebook and google fix)
 
-  final Dio dio;
+  final http.Client _httpClient;
 
+<<<<<<< HEAD
   Future<String> get(
 >>>>>>> a37b117 (feat: add image google)
+=======
+  Future<dynamic> postFile(
+>>>>>>> afb0855 (feat: facebook and google fix)
     String path, {
+    required Map<String, String> fields,
+    required http.MultipartFile multipartFile,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParameter,
   }) async {
+<<<<<<< HEAD
     try {
 <<<<<<< HEAD
       log(
@@ -133,6 +153,25 @@ class HttpClientHandler {
     } else {
       final message = utf8.decode(response.data);
 >>>>>>> a37b117 (feat: add image google)
+=======
+    final request = http.MultipartRequest('POST', Uri.parse('$baseUri$path'))
+      ..files.add(
+        multipartFile,
+      )
+      ..headers
+      ..fields.addAll(fields);
+    final response = await request.send();
+    return _handleResponse(await _fromStream(response));
+  }
+
+  dynamic _handleResponse(http.Response response) {
+    log(response.body, name: 'HTTPdio_HANDLER');
+    if (HttpStatus.ok <= response.statusCode &&
+        response.statusCode <= HttpStatus.multipleChoices) {
+      return jsonDecode(response.body);
+    } else {
+      final message = utf8.decode(response.bodyBytes);
+>>>>>>> afb0855 (feat: facebook and google fix)
       switch (response.statusCode) {
         case 400:
           throw BadRequestException(message: message);
@@ -150,6 +189,9 @@ class HttpClientHandler {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> afb0855 (feat: facebook and google fix)
   Future<Uint8List> _toBytes(
     http.ByteStream stream,
   ) {
@@ -157,6 +199,7 @@ class HttpClientHandler {
     final sink = ByteConversionSink.withCallback(
       (bytes) => completer.complete(Uint8List.fromList(bytes)),
     );
+<<<<<<< HEAD
 
     stream.listen(
       sink.add,
@@ -191,32 +234,36 @@ class HttpClientHandler {
   //   final sink = ByteConversionSink.withCallback(
   //     (bytes) => completer.complete(Uint8List.fromList(bytes)),
   //   );
+=======
+>>>>>>> afb0855 (feat: facebook and google fix)
 
-  //   stream.listen(
-  //     sink.add,
-  //     onError: completer.completeError,
-  //     onDone: sink.close,
-  //     cancelOnError: true,
-  //   );
+    stream.listen(
+      sink.add,
+      onError: completer.completeError,
+      onDone: sink.close,
+      cancelOnError: true,
+    );
 
-  //   return completer.future;
-  // }
+    return completer.future;
+  }
 
-  // Future<http.Response> _fromStream(
-  //   http.StreamedResponse response,
-  // ) async {
-  //   final body = await _toBytes(response.stream);
+  Future<http.Response> _fromStream(
+    http.StreamedResponse response,
+  ) async {
+    final body = await _toBytes(response.stream);
 
-  //   return http.Response.bytes(
-  //     body,
-  //     response.statusCode,
-  //     request: response.request,
-  //     headers: response.headers,
-  //     isRedirect: response.isRedirect,
-  //     persistentConnection: response.persistentConnection,
-  //     reasonPhrase: response.reasonPhrase,
-  //   );
-  // }
-
+<<<<<<< HEAD
 >>>>>>> a37b117 (feat: add image google)
+=======
+    return http.Response.bytes(
+      body,
+      response.statusCode,
+      request: response.request,
+      headers: response.headers,
+      isRedirect: response.isRedirect,
+      persistentConnection: response.persistentConnection,
+      reasonPhrase: response.reasonPhrase,
+    );
+  }
+>>>>>>> afb0855 (feat: facebook and google fix)
 }

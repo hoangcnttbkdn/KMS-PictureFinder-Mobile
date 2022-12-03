@@ -9,9 +9,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:pictures_finder/data/http_exception.dart';
+import 'package:pictures_finder/main.dart';
 
 /// {@template httpdio_handler}
 /// A http client handler for base api client
@@ -19,67 +21,35 @@ import 'package:pictures_finder/data/http_exception.dart';
 class HttpClientHandler {
   /// {@macro httpdio_handler}
   HttpClientHandler({
-    Dio? dio,
-  }) : dio = dio ?? Dio();
+    http.Client? httpClient,
+  }) : _httpClient = httpClient ?? http.Client();
 
-  final Dio dio;
+  final http.Client _httpClient;
 
-  Future<String> get(
+  Future<dynamic> postFile(
     String path, {
+    required Map<String, String> fields,
+    required http.MultipartFile multipartFile,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParameter,
   }) async {
-    try {
-      return dio
-          .get(path, options: Options(headers: headers))
-          .then(_handleResponse);
-    } on SocketException {
-      rethrow;
-    }
+    final request = http.MultipartRequest('POST', Uri.parse('$baseUri$path'))
+      ..files.add(
+        multipartFile,
+      )
+      ..headers
+      ..fields.addAll(fields);
+    final response = await request.send();
+    return _handleResponse(await _fromStream(response));
   }
 
-  Future<String> post(
-    String path, {
-    Object? body,
-    Map<String, String>? headers,
-    Map<String, dynamic>? queryParameter,
-  }) async {
-    try {
-      return dio
-          .post(
-            path,
-            options: Options(headers: headers),
-            data: body,
-          )
-          .then(_handleResponse);
-    } on SocketException {
-      rethrow;
-    }
-  }
-
-  Future<String> postFile(
-    String path, {
-    required FormData formData,
-    Map<String, String>? headers,
-    Map<String, dynamic>? queryParameter,
-  }) async {
-    log(formData.files.toString());
-    log(formData.fields.toString());
-
-    final response = await dio.post(
-      path,
-      data: formData,
-    );
-    return _handleResponse(response);
-  }
-
-  String _handleResponse(Response response) {
-    log(response.data, name: 'HTTPdio_HANDLER');
-    if (HttpStatus.ok <= response.statusCode! &&
-        response.statusCode! <= HttpStatus.multipleChoices) {
-      return utf8.decode(response.data);
+  dynamic _handleResponse(http.Response response) {
+    log(response.body, name: 'HTTPdio_HANDLER');
+    if (HttpStatus.ok <= response.statusCode &&
+        response.statusCode <= HttpStatus.multipleChoices) {
+      return jsonDecode(response.body);
     } else {
-      final message = utf8.decode(response.data);
+      final message = utf8.decode(response.bodyBytes);
       switch (response.statusCode) {
         case 400:
           throw BadRequestException(message: message);
@@ -96,38 +66,37 @@ class HttpClientHandler {
     }
   }
 
-  // Future<Uint8List> _toBytes(
-  //   http.ByteStream stream,
-  // ) {
-  //   final completer = Completer<Uint8List>();
-  //   final sink = ByteConversionSink.withCallback(
-  //     (bytes) => completer.complete(Uint8List.fromList(bytes)),
-  //   );
+  Future<Uint8List> _toBytes(
+    http.ByteStream stream,
+  ) {
+    final completer = Completer<Uint8List>();
+    final sink = ByteConversionSink.withCallback(
+      (bytes) => completer.complete(Uint8List.fromList(bytes)),
+    );
 
-  //   stream.listen(
-  //     sink.add,
-  //     onError: completer.completeError,
-  //     onDone: sink.close,
-  //     cancelOnError: true,
-  //   );
+    stream.listen(
+      sink.add,
+      onError: completer.completeError,
+      onDone: sink.close,
+      cancelOnError: true,
+    );
 
-  //   return completer.future;
-  // }
+    return completer.future;
+  }
 
-  // Future<http.Response> _fromStream(
-  //   http.StreamedResponse response,
-  // ) async {
-  //   final body = await _toBytes(response.stream);
+  Future<http.Response> _fromStream(
+    http.StreamedResponse response,
+  ) async {
+    final body = await _toBytes(response.stream);
 
-  //   return http.Response.bytes(
-  //     body,
-  //     response.statusCode,
-  //     request: response.request,
-  //     headers: response.headers,
-  //     isRedirect: response.isRedirect,
-  //     persistentConnection: response.persistentConnection,
-  //     reasonPhrase: response.reasonPhrase,
-  //   );
-  // }
-
+    return http.Response.bytes(
+      body,
+      response.statusCode,
+      request: response.request,
+      headers: response.headers,
+      isRedirect: response.isRedirect,
+      persistentConnection: response.persistentConnection,
+      reasonPhrase: response.reasonPhrase,
+    );
+  }
 }

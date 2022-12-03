@@ -1,20 +1,29 @@
 import 'dart:developer';
 
+import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pictures_finder/common/enum/loading_status.dart';
 import 'package:pictures_finder/model/image_result.dart';
 import 'package:pictures_finder/repo/image_repository.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-part 'home_state.dart';
+part 'facebook_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
-  HomeCubit({required this.imageRepository}) : super(const HomeState());
+class FacebookCubit extends Cubit<FacebookState> {
+  FacebookCubit(this.imageRepository) : super(const FacebookState());
 
   final ImageRepository imageRepository;
 
-  void changeFolder({required String folderPath}) {
-    emit(state.copyWith(url: folderPath));
+  void changeCookie(String cookie) {
+    emit(state.copyWith(cookie: cookie));
+  }
+
+  void changeAlbumUrl(String albumUrl) {
+    emit(state.copyWith(albumUrl: albumUrl));
+  }
+
+  void changeAccessToken(String accessToken) {
+    emit(state.copyWith(accessToken: accessToken));
   }
 
   Future<void> pickImageFromGallery() async {
@@ -29,14 +38,17 @@ class HomeCubit extends Cubit<HomeState> {
       }
     } catch (e) {
       log(e.toString());
+      rethrow;
     }
   }
 
   Future<void> findImages() async {
     try {
       emit(state.copyWith(loadingStatus: LoadingStatus.loading));
-      final imageList = await imageRepository.getYourFaceImagefromGoogleDrive(
-        folderUrl: state.url,
+      final imageList = await imageRepository.getYourFaceImageFromFacebook(
+        accessToken: state.accessToken,
+        albumUrl: state.albumUrl,
+        cookie: state.cookie,
         imagePath: state.imagePath,
       );
       emit(
@@ -46,6 +58,11 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     } catch (e) {
+      emit(
+        state.copyWith(
+          loadingStatus: LoadingStatus.error,
+        ),
+      );
       log(e.toString());
       rethrow;
     }

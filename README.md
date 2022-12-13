@@ -6,15 +6,7 @@
 ## Video demo
 - Use this link: [https://youtu.be/_8mVyfxF-9o](https://youtu.be/_8mVyfxF-9o)
 - App:
-<<<<<<< HEAD
-<<<<<<< HEAD
-[Video App demo](https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4)
-=======
-https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4
->>>>>>> af58d58 (Update README.md)
-=======
 ![Video App demo](https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4)
->>>>>>> 06f9785 (Update README.md)
 
 
 ## More information
@@ -31,13 +23,10 @@ More information of project: [Link document](https://docs.google.com/document/d/
 
 ## Setup and run Mobile App
 
-<<<<<<< HEAD
-=======
 <details>
     <summary>Click to expand</summary>
     <br>
 
->>>>>>> af58d58 (Update README.md)
 - Setup and run
   - Flutter
     - Install [Flutter](https://flutter.dev/docs/get-started/install).
@@ -59,6 +48,8 @@ More information of project: [Link document](https://docs.google.com/document/d/
       ❯ flutter run
       ```
       or debug mode in VSCode or some IDEs
+
+</details>
   ```
 
 # Convention

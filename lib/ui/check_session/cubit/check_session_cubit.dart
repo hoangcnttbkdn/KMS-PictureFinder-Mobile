@@ -22,7 +22,7 @@ class CheckSessionCubit extends Cubit<CheckSessionState> {
     try {
       emit(state.copyWith(loadingStatus: LoadingStatus.loading));
       final result = await imageRepository.getSessionResultById(
-        sessionId: 83,
+        sessionId: state.session.sessionId,
       );
       emit(
         state.copyWith(

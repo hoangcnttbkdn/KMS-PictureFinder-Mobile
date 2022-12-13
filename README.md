@@ -1,9 +1,10 @@
 # 19N12 - TEAM 1 - Events: Picture Finders
+## Mobile APp
 
 ## Video demo
 - Use this link: [https://youtu.be/_8mVyfxF-9o](https://youtu.be/_8mVyfxF-9o)
 - App:
-https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4
+![Video App demo](https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4)
 
 
 ## More information

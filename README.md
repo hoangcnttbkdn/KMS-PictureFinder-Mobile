@@ -1,7 +1,10 @@
 # 19N12 - TEAM 1 - Events: Picture Finders
 
 ## Video demo
-Use this link: [https://youtu.be/_8mVyfxF-9o](https://youtu.be/_8mVyfxF-9o)
+- Use this link: [https://youtu.be/_8mVyfxF-9o](https://youtu.be/_8mVyfxF-9o)
+- App:
+https://user-images.githubusercontent.com/63831488/207318108-b911c857-fda1-45c4-8978-8d92bf6dbf41.mp4
+
 
 ## More information
 More information of project: [Link document](https://docs.google.com/document/d/1MbT5B7fmlTc-TBTIIkfts7OVd-rrcYt-_b2BFACHJXk/edit?usp=share_link)
@@ -14,74 +17,36 @@ More information of project: [Link document](https://docs.google.com/document/d/
 * **The next version**
 ![](./assets/images/architect_2.png)
 
-## Prepare
 
-- Create a `.env` file from the `.env.example` file
+## Setup and run Mobile App
 
-  ```
-  cp .env.example .env
-  ```
+<details>
+    <summary>Click to expand</summary>
+    <br>
 
-- Install package
+- Setup and run
+  - Flutter
+    - Install [Flutter](https://flutter.dev/docs/get-started/install).
+    - Using **`stable`** channel:
+      ```bash
+      ❯ flutter channel stable
+      ❯ flutter upgrade
+      ```
+    - Flutter doctor:
+      ```bash
+      ❯ flutter doctor
+      ```
+    - Install all the packages by:
+      ```bash
+      ❯ flutter pub get
+      ```
+    - Run app on real devices or emulator by:
+      ```bash
+      ❯ flutter run
+      ```
+      or debug mode in VSCode or some IDEs
 
-  ```
-  npm install
-  ```
-
-- Build source
-
-  ```
-  npm run build
-  ```
-
-## Local (For DEV)
-
-- Environment
-
-  ```
-  node v16+
-  ```
-
-- Docker commands
-
-  - Build & run all container
-
-    ```
-    docker-compose up --build
-    ```
-
-  - Run all container
-    ```
-    docker-compose up
-    ```
-  - Run a container
-    ```
-    docker-compose up <service_name>
-    ```
-  - Exec
-
-    ```
-    docker exec -it <service_name> sh
-    ```
-
-## Migration
-
-- Generate migration file with Windows (Linux, MAC change % in line 16 file package.json to $)
-
-  ```
-  npm run migration:generate --name=<file-name>
-  ```
-
-- Running migration
-
-  ```
-  npm run migration:run
-  ```
-
-- Revert migration
-
-  ```
-  npm run migration:revert
+</details>
   ```
 
 # Convention

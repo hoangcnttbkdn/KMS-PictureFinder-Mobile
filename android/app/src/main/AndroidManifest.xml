@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.dungngminh.pictures_finder">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="pictures_finder"
+        android:label="Picture Finder"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

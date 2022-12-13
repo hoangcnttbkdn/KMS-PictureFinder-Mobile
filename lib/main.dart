@@ -14,7 +14,7 @@ import 'package:pictures_finder/model/sent_session.dart';
 import 'package:pictures_finder/repo/image_repository.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-const baseUri = 'http://34.143.233.85';
+const baseUri = 'http://be.picturesfinder.software';
 
 Future<void> main() async {
   await Hive.initFlutter();

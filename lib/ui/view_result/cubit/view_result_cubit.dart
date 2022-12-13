@@ -22,7 +22,7 @@ class ViewResultCubit extends Cubit<ViewResultState> {
     try {
       emit(state.copyWith(loadingStatus: LoadingStatus.loading));
       final imageResults = await _imageRepository.getImageResultById(
-        sessionId: 83,
+        sessionId: state.sentSession.sessionId,
       );
       emit(
         state.copyWith(

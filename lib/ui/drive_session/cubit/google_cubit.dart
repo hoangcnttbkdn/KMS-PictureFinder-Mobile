@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pictures_finder/common/enum/loading_status.dart';
-import 'package:pictures_finder/model/image_result.dart';
+import 'package:pictures_finder/common/helpers/file_helper.dart';
 import 'package:pictures_finder/repo/image_repository.dart';
 import 'package:platform_helper/platform_helper.dart';
 
@@ -15,7 +15,11 @@ class GoogleCubit extends Cubit<GoogleState> {
   final ImageRepository imageRepository;
 
   void changeFolder({required String folderPath}) {
-    emit(state.copyWith(url: folderPath));
+    emit(state.copyWith(folderUrl: folderPath));
+  }
+
+  void removeImagePath() {
+    emit(state.copyWith(imagePath: '', fileSize: ''));
   }
 
   Future<void> pickImageFromGallery() async {
@@ -25,7 +29,8 @@ class GoogleCubit extends Cubit<GoogleState> {
         imageQuality: 40,
       );
       if (imagePath != null) {
-        emit(state.copyWith(imagePath: imagePath));
+        final imageSize = await getFileSize(filepath: imagePath, decimals: 2);
+        emit(state.copyWith(imagePath: imagePath, fileSize: imageSize));
         return;
       }
     } catch (e) {
@@ -37,14 +42,14 @@ class GoogleCubit extends Cubit<GoogleState> {
     try {
       log(state.imagePath);
       emit(state.copyWith(loadingStatus: LoadingStatus.loading));
-      final imageList = await imageRepository.getYourFaceImageFromGoogleDrive(
-        folderUrl: state.url,
+      final sessionId = await imageRepository.getSessionFromGoogle(
+        folderUrl: state.folderUrl,
         imagePath: state.imagePath,
       );
       emit(
         state.copyWith(
           loadingStatus: LoadingStatus.done,
-          imageResult: imageList,
+          currentSessionId: sessionId,
         ),
       );
     } catch (e) {

@@ -26,6 +26,24 @@ class HttpClientHandler {
 
   final http.Client _httpClient;
 
+  Future<dynamic> get(
+    String path, {
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParameter,
+  }) async {
+    try {
+      log(
+        Uri.parse('$baseUri$path').toString(),
+        name: 'HTTP_CLIENT_HANDLER_GET',
+      );
+      return _httpClient
+          .get(Uri.parse('$baseUri$path'), headers: headers)
+          .then(_handleResponse);
+    } on SocketException {
+      rethrow;
+    }
+  }
+
   Future<dynamic> postFile(
     String path, {
     required Map<String, String> fields,
@@ -44,7 +62,7 @@ class HttpClientHandler {
   }
 
   dynamic _handleResponse(http.Response response) {
-    log(response.body, name: 'HTTPdio_HANDLER');
+    log(response.body, name: 'HTTP_HANDLER');
     if (HttpStatus.ok <= response.statusCode &&
         response.statusCode <= HttpStatus.multipleChoices) {
       return jsonDecode(response.body);

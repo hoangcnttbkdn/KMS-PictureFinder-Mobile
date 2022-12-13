@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pictures_finder/common/enum/loading_status.dart';
+import 'package:pictures_finder/common/helpers/file_helper.dart';
 import 'package:pictures_finder/model/image_result.dart';
 import 'package:pictures_finder/repo/image_repository.dart';
 import 'package:platform_helper/platform_helper.dart';
@@ -10,12 +11,16 @@ import 'package:platform_helper/platform_helper.dart';
 part 'facebook_state.dart';
 
 class FacebookCubit extends Cubit<FacebookState> {
-  FacebookCubit(this.imageRepository) : super(const FacebookState());
+  FacebookCubit({required this.imageRepository}) : super(const FacebookState());
 
   final ImageRepository imageRepository;
 
   void changeCookie(String cookie) {
     emit(state.copyWith(cookie: cookie));
+  }
+
+  void changeEmail(String email) {
+    emit(state.copyWith(email: email));
   }
 
   void changeAlbumUrl(String albumUrl) {
@@ -33,7 +38,8 @@ class FacebookCubit extends Cubit<FacebookState> {
         imageQuality: 40,
       );
       if (imagePath != null) {
-        emit(state.copyWith(imagePath: imagePath));
+        final imageSize = await getFileSize(filepath: imagePath, decimals: 2);
+        emit(state.copyWith(imagePath: imagePath, fileSize: imageSize));
         return;
       }
     } catch (e) {
@@ -45,16 +51,18 @@ class FacebookCubit extends Cubit<FacebookState> {
   Future<void> findImages() async {
     try {
       emit(state.copyWith(loadingStatus: LoadingStatus.loading));
-      final imageList = await imageRepository.getYourFaceImageFromFacebook(
+      final sessionId = await imageRepository.getSessionFromFacebook(
         accessToken: state.accessToken,
         albumUrl: state.albumUrl,
         cookie: state.cookie,
         imagePath: state.imagePath,
+        email: state.email.isEmpty ? null : state.email,
       );
+
       emit(
         state.copyWith(
           loadingStatus: LoadingStatus.done,
-          imageResult: imageList,
+          currentSessionId: sessionId,
         ),
       );
     } catch (e) {
@@ -66,5 +74,9 @@ class FacebookCubit extends Cubit<FacebookState> {
       log(e.toString());
       rethrow;
     }
+  }
+
+  void removeImagePath() {
+    emit(state.copyWith(imagePath: '', fileSize: ''));
   }
 }

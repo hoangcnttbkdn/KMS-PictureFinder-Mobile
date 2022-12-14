@@ -1,5 +1,7 @@
 # 19N12 - TEAM 1 - Events: Picture Finders
 ## Mobile APP
+### Version 1.0.0
+- Download: https://install.appcenter.ms/users/hoangsndxqn-gmail.com/apps/picturesfinder/distribution_groups/production
 
 ## Video demo
 - Use this link: [https://youtu.be/_8mVyfxF-9o](https://youtu.be/_8mVyfxF-9o)

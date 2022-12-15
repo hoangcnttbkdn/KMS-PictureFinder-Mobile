@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pictures_finder/common/enum/loading_status.dart';
 import 'package:pictures_finder/common/widgets/fill_button.dart';
 import 'package:pictures_finder/model/sent_session.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 import 'package:pictures_finder/ui/check_session/cubit/check_session_cubit.dart';
 import 'package:pictures_finder/ui/view_result/view_result_page.dart';
 
@@ -17,7 +17,7 @@ class CheckSessionDialog extends StatelessWidget {
     return BlocProvider(
       create: (context) => CheckSessionCubit(
         session: session,
-        imageRepository: context.read<ImageRepository>(),
+        imageRepository: context.read<SessionRepository>(),
       ),
       child: const CheckSessionDialogView(),
     );
@@ -30,8 +30,8 @@ class CheckSessionDialogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Trạng thái tìm kiếm'),
-      content: Column(
+      title: const Text('Searching Status'),
+      content: Column(  
         mainAxisSize: MainAxisSize.min,
         children: [
           Builder(
@@ -46,12 +46,12 @@ class CheckSessionDialogView extends StatelessWidget {
                 );
               }
               if (loadingStatus == LoadingStatus.error) {
-                return const Text('Đã có lỗi xảy ra, xin thử lại');
+                return const Text('An error occurred, please try again');
               }
               return Text(
                 result!.value.isFinished
-                    ? 'Đã có kết quả tìm kiếm'
-                    : 'Hiện chưa có kết quả tìm kiếm, vui lòng quay lại',
+                    ? 'Search results are available'
+                    : 'There are currently no search results, please come back',
               );
             },
           ),
@@ -79,12 +79,12 @@ class CheckSessionDialogView extends StatelessWidget {
                         );
                     }
                   : null,
-              child: const Text('Xem kết quả'),
+              child: const Text('View result'),
             );
           },
         ),
         TextButton(
-          child: const Text('Đóng'),
+          child: const Text('Close'),
           onPressed: () => Navigator.pop(context),
         )
       ],

@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pictures_finder/model/sent_session.dart';
 import 'package:pictures_finder/model/wrapper.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 
 part 'saved_session_state.dart';
 
@@ -16,7 +16,7 @@ class SavedSessionCubit extends Cubit<SavedSessionState> {
     getSessionLiveData();
   }
 
-  final ImageRepository imageRepository;
+  final SessionRepository imageRepository;
 
   void getSessionLiveData() {
     final listenable = imageRepository.getLiveSavedSessions();

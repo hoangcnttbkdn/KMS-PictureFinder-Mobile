@@ -1,3 +1,4 @@
+
 part of 'facebook_cubit.dart';
 
 class FacebookState extends Equatable {
@@ -6,9 +7,10 @@ class FacebookState extends Equatable {
     this.accessToken = '',
     this.cookie = '',
     this.imageResult = const [],
-    this.imagePath = '',
+    this.data = '',
     this.fileSize = '',
     this.email = '',
+    this.currentIndex = 0,
     this.albumUrl = '',
     this.currentSessionId = 0,
   });
@@ -17,9 +19,10 @@ class FacebookState extends Equatable {
   final String accessToken;
   final String cookie;
   final List<ImageResult> imageResult;
-  final String imagePath;
+  final String data;
   final String email;
   final String fileSize;
+  final int currentIndex;
   final String albumUrl;
   final int currentSessionId;
 
@@ -30,9 +33,10 @@ class FacebookState extends Equatable {
       accessToken,
       cookie,
       imageResult,
-      imagePath,
+      data,
       email,
       fileSize,
+      currentIndex,
       albumUrl,
       currentSessionId,
     ];
@@ -43,9 +47,10 @@ class FacebookState extends Equatable {
     String? accessToken,
     String? cookie,
     List<ImageResult>? imageResult,
-    String? imagePath,
+    String? data,
     String? email,
     String? fileSize,
+    int? currentIndex,
     String? albumUrl,
     int? currentSessionId,
   }) {
@@ -54,9 +59,10 @@ class FacebookState extends Equatable {
       accessToken: accessToken ?? this.accessToken,
       cookie: cookie ?? this.cookie,
       imageResult: imageResult ?? this.imageResult,
-      imagePath: imagePath ?? this.imagePath,
+      data: data ?? this.data,
       email: email ?? this.email,
       fileSize: fileSize ?? this.fileSize,
+      currentIndex: currentIndex ?? this.currentIndex,
       albumUrl: albumUrl ?? this.albumUrl,
       currentSessionId: currentSessionId ?? this.currentSessionId,
     );

@@ -9,9 +9,12 @@ import 'package:pictures_finder/data/local/local_session_datasource.dart';
 import 'package:pictures_finder/data/remote/facebook_datasource.dart';
 import 'package:pictures_finder/data/remote/google_datasource.dart';
 import 'package:pictures_finder/data/remote/remote_session_datasource.dart';
+import 'package:pictures_finder/model/find_type.dart';
 import 'package:pictures_finder/model/provider.dart';
 import 'package:pictures_finder/model/sent_session.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/facebook_repository.dart';
+import 'package:pictures_finder/repo/google_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 const baseUri = 'http://be.picturesfinder.software';
@@ -20,7 +23,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive
     ..registerAdapter(ProviderAdapter())
-    ..registerAdapter(SentSessionAdapter());
+    ..registerAdapter(SentSessionAdapter())
+    ..registerAdapter(FindTypeAdapter());
   initializeDateFormatting();
   timeago.setLocaleMessages('vi', timeago.ViMessages());
   final box = await Hive.openBox<SentSession>('session');
@@ -32,13 +36,27 @@ Future<void> main() async {
       RemoteSessionDatasource(httpClientHandler: httpHandler);
 
   runApp(
-    RepositoryProvider(
-      create: (_) => ImageRepository(
-        googleDatasource: googleDatasource,
-        facebookDatasource: facebookDatasource,
-        localSessionDatasource: sessionDatasource,
-        remoteSessionDatasource: remoteSessionDatasource,
-      ),
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (_) => SessionRepository(
+            localSessionDatasource: sessionDatasource,
+            remoteSessionDatasource: remoteSessionDatasource,
+          ),
+        ),
+        RepositoryProvider(
+          create: (_) => GoogleRepository(
+            googleDatasource: googleDatasource,
+            localSessionDatasource: sessionDatasource,
+          ),
+        ),
+        RepositoryProvider(
+          create: (_) => FacebookRepository(
+            facebookDatasource: facebookDatasource,
+            localSessionDatasource: sessionDatasource,
+          ),
+        )
+      ],
       child: const App(),
     ),
   );

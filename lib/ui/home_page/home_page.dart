@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pictures_finder/model/sent_session.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 import 'package:pictures_finder/ui/add_session/add_session_page.dart';
 import 'package:pictures_finder/ui/check_session/check_session_dialog.dart';
 import 'package:pictures_finder/ui/home_page/cubit/saved_session_cubit.dart';
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          SavedSessionCubit(imageRepository: context.read<ImageRepository>()),
+          SavedSessionCubit(imageRepository: context.read<SessionRepository>()),
       child: const HomeView(),
     );
   }
@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
               context.watch<SavedSessionCubit>().state.savedSessionLiveData;
           if (liveData?.value == null) {
             return const Center(
-              child: Text('Đang khởi tạo'),
+              child: Text('Initializing!!'),
             );
           }
           return ValueListenableBuilder<Box<SentSession>>(
@@ -44,12 +44,17 @@ class HomeView extends StatelessWidget {
             builder: (context, box, child) {
               if (box.isEmpty) {
                 return const Center(
-                  child: Text('Bạn chưa thực hiện tiến trình nào'),
+                  child: Text('You have not made any sessions yet'),
                 );
               }
               return ListView.builder(
                 itemCount: box.length,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  bottom: 32,
+                  top: 8,
+                ),
                 itemBuilder: (context, index) {
                   final session = box.getAt(index);
                   return SavedSessionCard(

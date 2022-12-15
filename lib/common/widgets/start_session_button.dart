@@ -19,7 +19,7 @@ class StartSessionButton extends StatelessWidget {
         height: 56,
         child: FilledButtonWithIcon(
           onPressed: onPressed,
-          label: const Text('Bắt đầu thực hiện'),
+          label: const Text('Start'),
           icon: const Icon(Icons.search),
         ),
       ),

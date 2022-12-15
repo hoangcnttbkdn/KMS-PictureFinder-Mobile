@@ -9,7 +9,7 @@ class SessionResult {
   SessionResult({
     required this.id,
     required this.url,
-    required this.targetImageUrl,
+     this.targetImageUrl,
     this.email,
     required this.totalImages,
     required this.type,
@@ -22,7 +22,7 @@ class SessionResult {
 
   final int id;
   final String url;
-  final String targetImageUrl;
+  final String? targetImageUrl;
   final String? email;
   final int totalImages;
   final Provider type;

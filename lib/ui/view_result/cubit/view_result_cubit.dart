@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pictures_finder/common/enum/loading_status.dart';
 import 'package:pictures_finder/model/image_result.dart';
 import 'package:pictures_finder/model/sent_session.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 
 part 'view_result_state.dart';
 
 class ViewResultCubit extends Cubit<ViewResultState> {
   ViewResultCubit({
     required SentSession sentSession,
-    required ImageRepository imageRepository,
+    required SessionRepository imageRepository,
   })  : _imageRepository = imageRepository,
         super(ViewResultState(sentSession: sentSession)) {
     getImageResultFromSessionId();
   }
 
-  final ImageRepository _imageRepository;
+  final SessionRepository _imageRepository;
 
   Future<void> getImageResultFromSessionId() async {
     try {

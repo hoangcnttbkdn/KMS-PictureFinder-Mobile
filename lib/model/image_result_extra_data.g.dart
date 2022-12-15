@@ -13,9 +13,9 @@ ImageResultExtraData _$ImageResultExtraDataFromJson(
       json,
       ($checkedConvert) {
         final val = ImageResultExtraData(
-          numberOfFace: $checkedConvert('numberOfFace', (v) => v as int),
+          numberOfFace: $checkedConvert('numberOfFace', (v) => v as int?),
           faceLocation: $checkedConvert('faceLocation',
-              (v) => (v as List<dynamic>).map((e) => e as int).toList()),
+              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
           confident: $checkedConvert('confident', (v) => (v as num).toDouble()),
         );
         return val;

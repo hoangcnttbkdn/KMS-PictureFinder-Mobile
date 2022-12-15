@@ -58,6 +58,9 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/download.svg
+  SvgGenImage get download => const SvgGenImage('assets/icons/download.svg');
+
   /// File path: assets/icons/drive.svg
   SvgGenImage get drive => const SvgGenImage('assets/icons/drive.svg');
 
@@ -68,7 +71,23 @@ class $AssetsIconsGen {
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [drive, facebook, google];
+  List<SvgGenImage> get values => [download, drive, facebook, google];
+}
+
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/bib.png
+  AssetGenImage get bib => const AssetGenImage('assets/images/bib.png');
+
+  /// File path: assets/images/clothes.png
+  AssetGenImage get clothes => const AssetGenImage('assets/images/clothes.png');
+
+  /// File path: assets/images/face.png
+  AssetGenImage get face => const AssetGenImage('assets/images/face.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [bib, clothes, face];
 }
 
 class Assets {
@@ -76,6 +95,7 @@ class Assets {
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {

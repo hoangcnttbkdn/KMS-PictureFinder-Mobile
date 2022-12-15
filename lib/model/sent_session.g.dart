@@ -18,24 +18,27 @@ class SentSessionAdapter extends TypeAdapter<SentSession> {
     };
     return SentSession(
       sessionId: fields[0] as int,
-      type: fields[1] as Provider,
+      provider: fields[1] as Provider,
+      data: fields[2] as String,
       createdAt: fields[3] as DateTime,
-      imagePath: fields[2] as String,
+      findType: fields[4] as FindType,
     );
   }
 
   @override
   void write(BinaryWriter writer, SentSession obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.sessionId)
       ..writeByte(1)
-      ..write(obj.type)
+      ..write(obj.provider)
       ..writeByte(2)
-      ..write(obj.imagePath)
+      ..write(obj.data)
       ..writeByte(3)
-      ..write(obj.createdAt);
+      ..write(obj.createdAt)
+      ..writeByte(4)
+      ..write(obj.findType);
   }
 
   @override

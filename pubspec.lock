@@ -541,10 +541,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b99f2c2 (feat: add new flow)
   path_provider:
     dependency: transitive
     description:
@@ -601,11 +597,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
-<<<<<<< HEAD
-=======
->>>>>>> afb0855 (feat: facebook and google fix)
-=======
->>>>>>> b99f2c2 (feat: add new flow)
   petitparser:
     dependency: transitive
     description:
@@ -613,10 +604,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b99f2c2 (feat: add new flow)
   platform:
     dependency: transitive
     description:
@@ -624,11 +611,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
-<<<<<<< HEAD
-=======
->>>>>>> afb0855 (feat: facebook and google fix)
-=======
->>>>>>> b99f2c2 (feat: add new flow)
   platform_helper:
     dependency: "direct main"
     description:

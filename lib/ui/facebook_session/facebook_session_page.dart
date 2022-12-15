@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pictures_finder/common/enum/loading_status.dart';
+import 'package:pictures_finder/common/extensions/build_context_extension.dart';
 import 'package:pictures_finder/common/extensions/snackbar_extension.dart';
 import 'package:pictures_finder/common/gen/assets.gen.dart';
 import 'package:pictures_finder/common/widgets/choose_image_button.dart';
@@ -16,11 +17,9 @@ class FacebookSessionPage extends StatefulWidget {
   State<FacebookSessionPage> createState() => _FacebookSessionPageState();
 }
 
-class _FacebookSessionPageState extends State<FacebookSessionPage>
-    with AutomaticKeepAliveClientMixin {
+class _FacebookSessionPageState extends State<FacebookSessionPage> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return MultiBlocListener(
       listeners: [
         BlocListener<FacebookCubit, FacebookState>(
@@ -48,6 +47,117 @@ class _FacebookSessionPageState extends State<FacebookSessionPage>
         child: Column(
           children: [
             Assets.icons.facebook.svg(height: 68),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Builder(
+                    builder: (context) {
+                      final currentIndex = context.select(
+                        (FacebookCubit cubit) => cubit.state.currentIndex,
+                      );
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                context.read<FacebookCubit>().changeIndex(0),
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: currentIndex == 0
+                                  ? context.colorScheme.primary
+                                  : Colors.white,
+                              child: CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Assets.images.face.image(),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Face',
+                            style: context.textTheme.bodyMedium,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                  Builder(
+                    builder: (context) {
+                      final currentIndex = context.select(
+                        (FacebookCubit cubit) => cubit.state.currentIndex,
+                      );
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                context.read<FacebookCubit>().changeIndex(1),
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: currentIndex == 1
+                                  ? context.colorScheme.primary
+                                  : Colors.white,
+                              child: CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Assets.images.bib.image(),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Bib',
+                            style: context.textTheme.bodyMedium,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                  Builder(
+                    builder: (context) {
+                      final currentIndex = context.select(
+                        (FacebookCubit cubit) => cubit.state.currentIndex,
+                      );
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                context.read<FacebookCubit>().changeIndex(2),
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: currentIndex == 2
+                                  ? context.colorScheme.primary
+                                  : Colors.white,
+                              child: CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Assets.images.clothes.image(),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Clothes',
+                            style: context.textTheme.bodyMedium,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 24),
             TextFormField(
               decoration: const InputDecoration(
@@ -82,7 +192,7 @@ class _FacebookSessionPageState extends State<FacebookSessionPage>
             TextFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Email nhận thông báo',
+                labelText: 'Email',
                 hintText: 'abc@gmail.com',
               ),
               onChanged: (value) =>
@@ -91,10 +201,23 @@ class _FacebookSessionPageState extends State<FacebookSessionPage>
             const SizedBox(height: 24),
             Builder(
               builder: (context) {
-                final currentPath = context
-                    .select((FacebookCubit cubit) => cubit.state.imagePath);
+                final currentPath =
+                    context.select((FacebookCubit cubit) => cubit.state.data);
                 final imageSize = context
                     .select((FacebookCubit cubit) => cubit.state.fileSize);
+                final currentIndex = context
+                    .select((FacebookCubit cubit) => cubit.state.currentIndex);
+                if (currentIndex == 1) {
+                  return TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Bib',
+                      hintText: 'Enter bib',
+                    ),
+                    onChanged: (value) =>
+                        context.read<FacebookCubit>().changeBib(value),
+                  );
+                }
                 if (currentPath.isNotEmpty) {
                   return PickedImageCard(
                     currentPath: currentPath,
@@ -117,8 +240,7 @@ class _FacebookSessionPageState extends State<FacebookSessionPage>
                 final cookie = context.watch<FacebookCubit>().state.cookie;
 
                 final albumUrl = context.watch<FacebookCubit>().state.albumUrl;
-                final imagePath =
-                    context.watch<FacebookCubit>().state.imagePath;
+                final imagePath = context.watch<FacebookCubit>().state.data;
                 final loadingStatus = context
                     .select((FacebookCubit bloc) => bloc.state.loadingStatus);
                 if (loadingStatus == LoadingStatus.loading) {
@@ -141,7 +263,4 @@ class _FacebookSessionPageState extends State<FacebookSessionPage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

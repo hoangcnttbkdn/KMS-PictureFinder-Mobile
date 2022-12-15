@@ -44,6 +44,25 @@ class HttpClientHandler {
     }
   }
 
+   Future<dynamic> post(
+    String path, {
+    required Map<String, dynamic> body,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParameter,
+  }) async {
+    try {
+      log(
+        Uri.parse('$baseUri$path').toString(),
+        name: 'HTTP_CLIENT_HANDLER_GET',
+      );
+      return _httpClient
+          .post(Uri.parse('$baseUri$path'),body: jsonEncode(body), headers: headers)
+          .then(_handleResponse);
+    } on SocketException {
+      rethrow;
+    }
+  }
+
   Future<dynamic> postFile(
     String path, {
     required Map<String, String> fields,

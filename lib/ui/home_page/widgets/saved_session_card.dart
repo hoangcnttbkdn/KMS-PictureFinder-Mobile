@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:pictures_finder/common/extensions/build_context_extension.dart';
 import 'package:pictures_finder/common/extensions/datetime_extension.dart';
+import 'package:pictures_finder/model/find_type.dart';
 import 'package:pictures_finder/model/provider.dart';
 import 'package:pictures_finder/model/sent_session.dart';
 
@@ -31,9 +33,8 @@ class SavedSessionCard extends StatelessWidget {
                   flex: 3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.file(
-                      File(session!.imagePath),
-                      fit: BoxFit.cover,
+                    child: Center(
+                      child: dataWidget(context),
                     ),
                   ),
                 ),
@@ -49,11 +50,13 @@ class SavedSessionCard extends StatelessWidget {
                         style: context.textTheme.bodyLarge,
                       ),
                       Text(
-                        'Tìm kiếm qua ${session!.type == Provider.drive ? "Drive" : "Facebook"}',
+                        session!.provider == Provider.drive
+                            ? 'Drive - ${session!.findType.name.capitalize()}'
+                            : 'Facebook - ${session!.findType.name.capitalize()}',
                         style: context.textTheme.bodyMedium,
                       ),
                       Text(
-                        'Thực hiện vào lúc: ${session!.createdAt.yMdHm}',
+                        'Created at: ${session!.createdAt.yMdHm}',
                         style: context.textTheme.bodyMedium,
                       ),
                     ],
@@ -66,5 +69,21 @@ class SavedSessionCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget dataWidget(BuildContext context) {
+    switch (session!.findType) {
+      case FindType.clothes:
+      case FindType.face:
+        return Image.file(
+          File(session!.data),
+          fit: BoxFit.fill,
+        );
+      case FindType.bib:
+        return Text(
+          session!.data,
+          style: context.textTheme.titleLarge,
+        );
+    }
   }
 }

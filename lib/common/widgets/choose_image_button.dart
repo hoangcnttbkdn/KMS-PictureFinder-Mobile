@@ -21,7 +21,7 @@ class ChoosePictureButton extends StatelessWidget {
         strokeCap: StrokeCap.round,
         color: context.colorScheme.primary,
         child: Container(
-          height: 150,
+          height: 120,
           decoration: BoxDecoration(
             color: context.colorScheme.surface,
             borderRadius: BorderRadius.circular(10),
@@ -37,7 +37,7 @@ class ChoosePictureButton extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Chọn ảnh của bạn',
+                'Choose your image',
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: context.colorScheme.onSurface,
                 ),
@@ -49,4 +49,3 @@ class ChoosePictureButton extends StatelessWidget {
     );
   }
 }
-

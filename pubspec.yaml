@@ -52,6 +52,8 @@ dependencies:
   dartx: ^1.1.0
   cached_network_image: ^3.2.3
   timeago: ^3.3.0
+  gallery_saver: ^2.3.2
+  image_downloader: ^0.31.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/fonts/
+    - assets/images/
 
   fonts:
     - family: Nunito

@@ -4,7 +4,7 @@ import 'package:pictures_finder/common/enum/loading_status.dart';
 import 'package:pictures_finder/model/sent_session.dart';
 import 'package:pictures_finder/model/session_result.dart';
 import 'package:pictures_finder/model/wrapper.dart';
-import 'package:pictures_finder/repo/image_repository.dart';
+import 'package:pictures_finder/repo/session_repository.dart';
 
 part 'check_session_state.dart';
 
@@ -16,7 +16,7 @@ class CheckSessionCubit extends Cubit<CheckSessionState> {
     checkSessionResult();
   }
 
-  final ImageRepository imageRepository;
+  final SessionRepository imageRepository;
 
   Future<void> checkSessionResult() async {
     try {

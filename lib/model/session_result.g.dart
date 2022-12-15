@@ -14,7 +14,8 @@ SessionResult _$SessionResultFromJson(Map<String, dynamic> json) =>
         final val = SessionResult(
           id: $checkedConvert('id', (v) => v as int),
           url: $checkedConvert('url', (v) => v as String),
-          targetImageUrl: $checkedConvert('targetImageUrl', (v) => v as String),
+          targetImageUrl:
+              $checkedConvert('targetImageUrl', (v) => v as String?),
           email: $checkedConvert('email', (v) => v as String?),
           totalImages: $checkedConvert('totalImages', (v) => v as int),
           type:
